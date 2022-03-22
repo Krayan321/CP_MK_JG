@@ -162,22 +162,22 @@ namespace Zad_0
             calculate();
         }
 
-        private double add(double a, double b)
+        public double add(double a, double b)
         {
             return a + b;
         }
 
-        private double subtract(double a, double b)
+        public double subtract(double a, double b)
         {
             return a - b;
         }
 
-        private double multiply(double a, double b)
+        public double multiply(double a, double b)
         {
             return a * b;
         }
 
-        private double divide(double a, double b)
+        public double divide(double a, double b)
         {
             if (b != 0)
                 return a / b;

@@ -49,6 +49,7 @@
             this.ButtonZero = new MetroSet_UI.Controls.MetroSetButton();
             this.ButtonResult = new MetroSet_UI.Controls.MetroSetButton();
             this.ButtonClear = new MetroSet_UI.Controls.MetroSetButton();
+            this.metroSetButton10 = new MetroSet_UI.Controls.MetroSetButton();
             this.metroSetPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -526,7 +527,7 @@
             this.ButtonResult.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(207)))), ((int)(((byte)(255)))));
             this.ButtonResult.HoverTextColor = System.Drawing.Color.White;
             this.ButtonResult.IsDerivedStyle = true;
-            this.ButtonResult.Location = new System.Drawing.Point(177, 354);
+            this.ButtonResult.Location = new System.Drawing.Point(15, 435);
             this.ButtonResult.Name = "ButtonResult";
             this.ButtonResult.NormalBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(177)))), ((int)(((byte)(225)))));
             this.ButtonResult.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(177)))), ((int)(((byte)(225)))));
@@ -534,7 +535,7 @@
             this.ButtonResult.PressBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(147)))), ((int)(((byte)(195)))));
             this.ButtonResult.PressColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(147)))), ((int)(((byte)(195)))));
             this.ButtonResult.PressTextColor = System.Drawing.Color.White;
-            this.ButtonResult.Size = new System.Drawing.Size(75, 75);
+            this.ButtonResult.Size = new System.Drawing.Size(317, 75);
             this.ButtonResult.Style = MetroSet_UI.Enums.Style.Light;
             this.ButtonResult.StyleManager = null;
             this.ButtonResult.TabIndex = 17;
@@ -570,13 +571,41 @@
             this.ButtonClear.ThemeName = "MetroLite";
             this.ButtonClear.Click += new System.EventHandler(this.ButtonClear_Click);
             // 
+            // metroSetButton10
+            // 
+            this.metroSetButton10.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(65)))), ((int)(((byte)(177)))), ((int)(((byte)(225)))));
+            this.metroSetButton10.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(65)))), ((int)(((byte)(177)))), ((int)(((byte)(225)))));
+            this.metroSetButton10.DisabledForeColor = System.Drawing.Color.Gray;
+            this.metroSetButton10.Font = new System.Drawing.Font("Technic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.metroSetButton10.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(207)))), ((int)(((byte)(255)))));
+            this.metroSetButton10.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(207)))), ((int)(((byte)(255)))));
+            this.metroSetButton10.HoverTextColor = System.Drawing.Color.White;
+            this.metroSetButton10.IsDerivedStyle = true;
+            this.metroSetButton10.Location = new System.Drawing.Point(177, 354);
+            this.metroSetButton10.Name = "metroSetButton10";
+            this.metroSetButton10.NormalBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(177)))), ((int)(((byte)(225)))));
+            this.metroSetButton10.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(177)))), ((int)(((byte)(225)))));
+            this.metroSetButton10.NormalTextColor = System.Drawing.Color.White;
+            this.metroSetButton10.PressBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(147)))), ((int)(((byte)(195)))));
+            this.metroSetButton10.PressColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(147)))), ((int)(((byte)(195)))));
+            this.metroSetButton10.PressTextColor = System.Drawing.Color.White;
+            this.metroSetButton10.Size = new System.Drawing.Size(75, 75);
+            this.metroSetButton10.Style = MetroSet_UI.Enums.Style.Light;
+            this.metroSetButton10.StyleManager = null;
+            this.metroSetButton10.TabIndex = 19;
+            this.metroSetButton10.Text = ".";
+            this.metroSetButton10.ThemeAuthor = "Narwin";
+            this.metroSetButton10.ThemeName = "MetroLite";
+            this.metroSetButton10.Click += new System.EventHandler(this.metroSetButton10_Click);
+            // 
             // Calculator
             // 
             this.AllowResize = false;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(350, 450);
+            this.ClientSize = new System.Drawing.Size(350, 530);
+            this.Controls.Add(this.metroSetButton10);
             this.Controls.Add(this.ButtonClear);
             this.Controls.Add(this.ButtonResult);
             this.Controls.Add(this.ButtonZero);
@@ -630,5 +659,6 @@
         private MetroSet_UI.Controls.MetroSetLabel mainLabel;
         private MetroSet_UI.Controls.MetroSetLabel secondLabel;
         private MetroSet_UI.Controls.MetroSetLabel operationLabel;
+        private MetroSet_UI.Controls.MetroSetButton metroSetButton10;
     }
 }

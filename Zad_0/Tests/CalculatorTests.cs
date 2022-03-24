@@ -1,36 +1,37 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using static Zad_0.Calculations;
+
 namespace Tests
 {
     [TestClass]
     public class CalculatorTests
     {
-        Zad_0.Calculator calculator = new Zad_0.Calculator();
         double a = 10;
         double b = 5;
         [TestMethod]
         public void addTest()
         {
-            Assert.AreEqual(a + b, calculator.add(a, b));
+            Assert.AreEqual(a + b, add(a, b));
         }
 
         [TestMethod]
         public void subtractTest()
         {
-            Assert.AreEqual(a - b, calculator.subtract(a, b));
+            Assert.AreEqual(a - b, subtract(a, b));
         }
 
         [TestMethod]
         public void divideTest()
         {
-            Assert.AreEqual(a / b, calculator.divide(a, b));
-            Assert.AreEqual(0, calculator.divide(a, 0));
+            Assert.AreEqual(a / b, divide(a, b));
+            Assert.AreEqual(0, divide(a, 0));
         }
 
         [TestMethod]
         public void multiplyTest()
         {
-            Assert.AreEqual(a * b, calculator.multiply(a, b));
+            Assert.AreEqual(a * b, multiply(a, b));
         }
     }
 }

@@ -1,5 +1,3 @@
-# CP_MK_JG
-Concurrent programing lab
 # Concurrent programming
 
 ## Working Group

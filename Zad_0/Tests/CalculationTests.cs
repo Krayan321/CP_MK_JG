@@ -5,7 +5,7 @@ using static Zad_0.Calculations;
 namespace Tests
 {
     [TestClass]
-    public class CalculatorTests
+    public class CalculationTests
     {
         double a = 10;
         double b = 5;

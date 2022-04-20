@@ -5,7 +5,7 @@ namespace ViewModel
 {
     public class ViewBall
     {
-        private Ball logicBall;
+        private readonly Ball logicBall;
 
         public float Position_X;
         public float Position_Y;
@@ -17,6 +17,11 @@ namespace ViewModel
         {
             this.logicBall = logicBall;
 
+            Update();
+        }
+
+        public void Update()
+        {
             Position_X = logicBall.Position_X;
             Position_Y = logicBall.Position_Y;
             Direction = logicBall.Direction;

@@ -10,6 +10,14 @@ namespace Logic
         public int Height { get; private set; }
         public List<Ball> Balls { get; private set; }
 
+        public Board(int width, int height, int numberOfBalls) : this(width, height)
+        {
+            for (int i = 0; i < numberOfBalls; i++)
+            {
+                Balls.Add(new Ball());
+            }
+        }
+
         public Board(int width, int height)
         {
             Width = width;

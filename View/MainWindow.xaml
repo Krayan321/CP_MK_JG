@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="30,388,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="100,388,0,0" TextWrapping="Wrap" Text="NumberOfBalls" VerticalAlignment="Top" Width="120"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="10,10,10,62">
+            <Canvas Margin="-1,-1,-1,-1"/>
+        </Border>
 
     </Grid>
 </Window>

@@ -48,5 +48,10 @@ namespace Logic
                 ball.Move();
             }
         }
+
+        public List<Ball> GetBalls()
+        {
+            return this.Balls;
+        }
     }
 }

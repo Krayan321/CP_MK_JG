@@ -1,11 +1,12 @@
 ﻿using System;
 using Logic;
 
-namespace ViewModel
+namespace Model
 {
-    public class ViewBall
+    public class ModelBall
     {
         private readonly Ball logicBall;
+        public string Color { get; set; }
 
         public float Position_X
         {
@@ -28,13 +29,9 @@ namespace ViewModel
             get { return logicBall.Radius; }
         }
 
-        public ViewBall(Ball logicBall)
+        public ModelBall(Ball logicBall)
         {
             this.logicBall = logicBall;
         }
-
-
-
-
     }
 }

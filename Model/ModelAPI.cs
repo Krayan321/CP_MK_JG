@@ -18,6 +18,7 @@ namespace Model
         }
 
         public abstract void AddBalls(int numberOfBalls);
+        public abstract void RemoveBalls();
         public abstract void MoveBalls();
         public abstract void RandomizePositions(int maxWidth, int maxHeight);
 
@@ -58,6 +59,11 @@ namespace Model
         {
             logicLayer.RandomizePositions(maxWidth, maxHeight);
         }
-        
+
+        public override void RemoveBalls()
+        { 
+            balls.Clear();
+            logicLayer.RemoveBalls();
+        }
     }
 }

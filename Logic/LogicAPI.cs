@@ -12,6 +12,7 @@ namespace Logic
         public abstract void MoveBalls();
         public abstract void AddBall(Ball ball);
         public abstract void RemoveBall(Ball ball);
+        public abstract void RemoveBalls();
         public abstract List<Ball> GetBalls();
         public abstract void RandomizePositions(int maxWidth, int maxHeight);
         public static LogicAPI CreateLayer(DataAPI data = default)
@@ -53,6 +54,11 @@ namespace Logic
                 {
                     ball.RandomizePosition(maxWidth, maxHeight);
                 }
+            }
+
+            public override void RemoveBalls()
+            {
+                Board.Balls.Clear();
             }
         }
     }

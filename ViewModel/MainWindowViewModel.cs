@@ -48,7 +48,7 @@ namespace ViewModel
         {
             modelLayer = modelApi;
             Balls = new ObservableCollection<ModelBall>();
-            ButtonText = "";
+            ButtonText = "Start";
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
@@ -64,6 +64,7 @@ namespace ViewModel
         private void StartClick()
         {
             ButtonText = "Started";
+            modelLayer.RemoveBalls();
             modelLayer.AddBalls(15);
             modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius, modelLayer.Height - modelLayer.Radius);
             Balls.Clear();

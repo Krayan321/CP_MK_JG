@@ -26,7 +26,7 @@ namespace Model
         }
         public int Radius
         {
-            get { return logicBall.Radius; }
+            get { return logicBall.Radius * 2; }
         }
 
         public ModelBall(Ball logicBall, string Color = "Green")

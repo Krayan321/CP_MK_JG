@@ -34,6 +34,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Content="Update" Width="50" Height="30" HorizontalAlignment="Left" Margin="224,388,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
+        <Button IsEnabled="{Binding CanStartUpdating}"  Content="{Binding UpdateButton}" Width="50" Height="30" HorizontalAlignment="Left" Margin="224,388,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
     </Grid>
 </Window>

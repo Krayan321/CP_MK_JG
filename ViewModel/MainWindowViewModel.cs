@@ -16,8 +16,12 @@ namespace ViewModel
 
         private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
         private bool notStarted = true;
-        private string buttonText = "Start";
-        
+        private string buttonText;
+        private string updateButton;
+        private bool canStartUpdating = false;
+        private Thread movingThread;
+        private Thread updatingThread;
+
 
         #endregion private
 
@@ -25,6 +29,7 @@ namespace ViewModel
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
+
         public bool NotStarted 
         { 
             get
@@ -35,6 +40,18 @@ namespace ViewModel
             {
                 notStarted = value;
                 RaisePropertyChanged("NotStarted");
+            }
+        }
+        public bool CanStartUpdating
+        {
+            get
+            {
+                return canStartUpdating;
+            }
+            set
+            {
+                canStartUpdating = value;
+                RaisePropertyChanged("CanStartUpdating");
             }
         }
 
@@ -50,6 +67,18 @@ namespace ViewModel
                 RaisePropertyChanged("ButtonText");
             }
         }
+        public string UpdateButton
+        {
+            get
+            {
+                return buttonText;
+            }
+            set
+            {
+                buttonText = value;
+                RaisePropertyChanged("UpdateButton");
+            }
+        }
 
         public MainWindowViewModel() : this(ModelAPI.CreateApi())
         {
@@ -60,7 +89,8 @@ namespace ViewModel
         {
             modelLayer = modelApi;
             Balls = new ObservableCollection<ModelBall>();
-            ButtonText = "Start";
+            ButtonText = "Generate";
+            UpdateButton = "Start";
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
@@ -75,26 +105,47 @@ namespace ViewModel
 
         private void StartClick()
         {
-            ButtonText = "Started";
+            ButtonText = "Generated";
+            movingThread = new Thread(modelLayer.MoveBalls);
+            updatingThread = new Thread(Update);
+            CanStartUpdating = true;
             modelLayer.RemoveBalls();
             modelLayer.AddBalls(15);
-            modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius, modelLayer.Height - modelLayer.Radius);
+            modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius * 2, modelLayer.Height - modelLayer.Radius * 2);
+            movingThread.Start();
             Balls.Clear();
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
-                //RaisePropertyChanged(nameof(ball));
             }
             NotStarted = false;
         }
 
         private void UpdateClick()
         {
-            modelLayer.MoveBalls();
-            Balls.Clear();
-            foreach (ModelBall ball in modelLayer.balls)
+            if(!IsUpdating)
             {
-                Balls.Add(ball);
+                IsUpdating = true;
+                updatingThread = new Thread(Update);
+                updatingThread.Start();
+                UpdateButton = "Stop";
+            }
+            else
+            {
+                UpdateButton = "Start";
+                IsUpdating = false;
+            }
+        }
+
+
+        private void Update()
+        {
+            while(IsUpdating)
+            {
+                ObservableCollection<ModelBall> newBalls = new ObservableCollection<ModelBall>(modelLayer.balls);
+                Balls = newBalls;
+                RaisePropertyChanged(nameof(Balls));
+                //Thread.Sleep(15);
             }
         }
 

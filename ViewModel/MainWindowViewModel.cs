@@ -16,7 +16,6 @@ namespace ViewModel
 
         private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
         private string buttonText;
-        private Task updating;
         
 
         #endregion private
@@ -25,7 +24,7 @@ namespace ViewModel
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
-        public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
+        public bool NotStarted { get; set; } = true;
 
         public string ButtonText 
         {
@@ -66,14 +65,14 @@ namespace ViewModel
         {
             ButtonText = "Started";
             modelLayer.AddBalls(15);
-            modelLayer.RandomizePositions(780 - modelLayer.Radius, 350 - modelLayer.Radius);
+            modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius, modelLayer.Height - modelLayer.Radius);
             Balls.Clear();
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
                 //RaisePropertyChanged(nameof(ball));
             }
-            
+            NotStarted = false;
         }
 
         private void UpdateClick()

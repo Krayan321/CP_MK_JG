@@ -25,7 +25,7 @@ namespace Logic
             public BusinessLogic(DataAPI dataLayerAPI)
             {
                 MyDataLayer = dataLayerAPI;
-                Board = new Board(780, 350);
+                Board = new Board(750, 350);
             }
 
             public override void MoveBalls()

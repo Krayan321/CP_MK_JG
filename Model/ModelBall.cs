@@ -29,8 +29,9 @@ namespace Model
             get { return logicBall.Radius; }
         }
 
-        public ModelBall(Ball logicBall)
+        public ModelBall(Ball logicBall, string Color = "Green")
         {
+            this.Color = Color;
             this.logicBall = logicBall;
         }
     }

@@ -10,6 +10,8 @@ namespace Model
         internal LogicAPI logicLayer;
         public List<ModelBall> balls;
         public int Radius { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public static ModelAPI CreateApi()
         {
             return new ModelLayer();
@@ -25,8 +27,11 @@ namespace Model
     {
         public ModelLayer()
         {
+            
             Radius = 10;
             logicLayer = LogicAPI.CreateLayer();
+            Width = logicLayer.Board.Width; 
+            Height = logicLayer.Board.Height;
             balls = new List<ModelBall>();
             foreach (Ball ball in logicLayer.GetBalls())
             {
@@ -53,5 +58,6 @@ namespace Model
         {
             logicLayer.RandomizePositions(maxWidth, maxHeight);
         }
+        
     }
 }

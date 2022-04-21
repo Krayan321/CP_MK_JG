@@ -45,7 +45,7 @@ namespace Logic
         {
             foreach (Ball ball in Balls)
             {
-                ball.Move();
+                ball.Move(Width, Height);
             }
         }
 

@@ -1,7 +1,11 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ViewModel
 {
@@ -10,12 +14,31 @@ namespace ViewModel
     {
         #region private
 
-        private IList<ModelBall> b_BallsCollection;
-        private ModelAPI ModelLayer = ModelAPI.CreateApi();
+        private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
+        private string buttonText;
+        private Task updating;
+        
 
         #endregion private
 
         #region public API
+        public ICommand StartButtonClick { get; set; }
+        public ICommand UpdateButtonClick { get; set; }
+        public bool IsUpdating { get; set; } = false;
+        public CancellationTokenSource TokenSource { get; set; } = new CancellationTokenSource();
+
+        public string ButtonText 
+        {
+            get
+            {
+                return buttonText;
+            }
+            set
+            {
+                buttonText = value;
+                RaisePropertyChanged("ButtonText");
+            }
+        }
 
         public MainWindowViewModel() : this(ModelAPI.CreateApi())
         {
@@ -24,29 +47,43 @@ namespace ViewModel
 
         public MainWindowViewModel(ModelAPI modelApi)
         {
-            ModelLayer = modelApi;
-            //ButtomClick = new RelayCommand(() => ClickHandler());
+            modelLayer = modelApi;
+            Balls = new ObservableCollection<ModelBall>();
+            ButtonText = "";
+            foreach (ModelBall ball in modelLayer.balls)
+            {
+                Balls.Add(ball);
+            }
+            StartButtonClick = new RelayCommand(() => StartClick());
+            UpdateButtonClick = new RelayCommand(() => UpdateClick());
         }
 
-        public IList<ModelBall> CirclesCollection
+        public ObservableCollection<ModelBall> Balls { get; set; }
+
+       
+
+        private void StartClick()
         {
-            get
+            ButtonText = "Started";
+            modelLayer.AddBalls(15);
+            modelLayer.RandomizePositions(500, 500);
+            Balls.Clear();
+            foreach (ModelBall ball in modelLayer.balls)
             {
-                return b_BallsCollection;
+                Balls.Add(ball);
+                RaisePropertyChanged(nameof(ball));
             }
-            set
-            {
-                if (value.Equals(b_BallsCollection))
-                    return;
-                RaisePropertyChanged("BallsCollection");
-            }
+            
         }
 
-        //public ICommand ButtomClick { get; set; }
-
-        private void ClickHandler()
+        private void UpdateClick()
         {
-            // do something usefull
+            modelLayer.MoveBalls();
+            Balls.Clear();
+            foreach (ModelBall ball in modelLayer.balls)
+            {
+                Balls.Add(ball);
+            }
         }
 
         #endregion public API

@@ -44,7 +44,7 @@ namespace LogicTests
         {
             testBall = new Ball();
 
-            testBall.Move();
+            testBall.Move(900, 900);
 
             Assert.AreEqual(10 + testBall.Direction[0] * testBall.Speed, testBall.Position_X);
             Assert.AreEqual(10 + testBall.Direction[1] * testBall.Speed, testBall.Position_Y);

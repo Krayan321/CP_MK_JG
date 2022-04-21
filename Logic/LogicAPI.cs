@@ -13,9 +13,10 @@ namespace Logic
         public abstract void AddBall(Ball ball);
         public abstract void RemoveBall(Ball ball);
         public abstract List<Ball> GetBalls();
-        public static LogicAPI CreateLayer(DataAPI data = default(DataAPI))
+        public abstract void RandomizePositions(int maxWidth, int maxHeight);
+        public static LogicAPI CreateLayer(DataAPI data = default)
         {
-            return new BusinessLogic(data == null ? DataAPI.CreateDataBase() : data);
+            return new BusinessLogic(data ?? DataAPI.CreateDataBase());
         }
 
         private class BusinessLogic : LogicAPI
@@ -24,6 +25,7 @@ namespace Logic
             public BusinessLogic(DataAPI dataLayerAPI)
             {
                 MyDataLayer = dataLayerAPI;
+                Board = new Board(780, 350);
             }
 
             public override void MoveBalls()
@@ -43,6 +45,14 @@ namespace Logic
             public override List<Ball> GetBalls()
             {
                 return Board.GetBalls();
+            }
+
+            public override void RandomizePositions(int maxWidth, int maxHeight)
+            {
+                foreach(Ball ball in GetBalls())
+                {
+                    ball.RandomizePosition(maxWidth, maxHeight);
+                }
             }
         }
     }

@@ -3,15 +3,45 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mv="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <mv:MainWindowViewModel />
+    </Window.DataContext>
     <Grid>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="30,388,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="100,388,0,0" TextWrapping="Wrap" Text="NumberOfBalls" VerticalAlignment="Top" Width="120"/>
+        <Button Content="{Binding ButtonText}" Width="50" Height="30" HorizontalAlignment="Left" Margin="10,388,0,0" VerticalAlignment="Top" Command="{Binding StartButtonClick}"/>
+        <TextBox HorizontalAlignment="Left" Margin="80,394,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Border BorderBrush="Black" BorderThickness="1" Margin="10,10,10,62">
-            <Canvas Margin="-1,-1,-1,-1"/>
+            <Canvas Width="780" Height="350">
+                <ItemsControl ItemsSource="{Binding Balls}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Name="BallSpace"
+                                Background="Black"
+                                Width="780"
+                                Height="350"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding Position_X}" />
+                            <Setter Property="Canvas.Top" Value="{Binding Position_Y}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Path Fill="Tomato">
+                                <Path.Data>
+                                    <EllipseGeometry RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" />
+                                </Path.Data>
+                            </Path>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Canvas>
         </Border>
-
+        <Button Content="Update" Width="50" Height="30" HorizontalAlignment="Left" Margin="224,388,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
     </Grid>
 </Window>

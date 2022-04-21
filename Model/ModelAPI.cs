@@ -15,6 +15,9 @@ namespace Model
         }
 
         public abstract void AddBalls(int numberOfBalls);
+        public abstract void MoveBalls();
+        public abstract void RandomizePositions(int maxWidth, int maxHeight);
+
     }
 
     internal class ModelLayer : ModelAPI
@@ -22,6 +25,7 @@ namespace Model
         public ModelLayer()
         {
             logicLayer = LogicAPI.CreateLayer();
+            balls = new List<ModelBall>();
             foreach (Ball ball in logicLayer.GetBalls())
             {
                 balls.Add(new ModelBall(ball));
@@ -36,6 +40,16 @@ namespace Model
                 logicLayer.AddBall(newBall);
                 balls.Add(new ModelBall(newBall));
             }
+        }
+
+        public override void MoveBalls()
+        {
+            logicLayer.MoveBalls();
+        }
+
+        public override void RandomizePositions(int maxWidth, int maxHeight)
+        {
+            logicLayer.RandomizePositions(maxWidth, maxHeight);
         }
     }
 }

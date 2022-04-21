@@ -1,4 +1,4 @@
-﻿using Model;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,9 +16,18 @@ namespace ViewModel
 
         private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
         private bool notStarted = true;
-        private string buttonText = "Start";
+
+        
         private string textBox;
         private string inputMessage;
+
+        private string buttonText;
+        private string updateButton;
+        private bool canStartUpdating = false;
+        private Task movingThread;
+        private Task updatingThread;
+
+
 
         #endregion private
 
@@ -41,6 +50,18 @@ namespace ViewModel
                 RaisePropertyChanged("NotStarted");
             }
         }
+        public bool CanStartUpdating
+        {
+            get
+            {
+                return canStartUpdating;
+            }
+            set
+            {
+                canStartUpdating = value;
+                RaisePropertyChanged("CanStartUpdating");
+            }
+        }
 
         public string ButtonText 
         {
@@ -52,6 +73,18 @@ namespace ViewModel
             {
                 buttonText = value;
                 RaisePropertyChanged("ButtonText");
+            }
+        }
+        public string UpdateButton
+        {
+            get
+            {
+                return updateButton;
+            }
+            set
+            {
+                updateButton = value;
+                RaisePropertyChanged("UpdateButton");
             }
         }
 
@@ -95,7 +128,8 @@ namespace ViewModel
         {
             modelLayer = modelApi;
             Balls = new ObservableCollection<ModelBall>();
-            ButtonText = "Start";
+            ButtonText = "Generate";
+            UpdateButton = "Start";
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
@@ -110,26 +144,47 @@ namespace ViewModel
 
         private void StartClick()
         {
-            ButtonText = "Started";
+            ButtonText = "Generated";
+            movingThread = new Task(modelLayer.MoveBalls);
+            updatingThread = new Task(Update);
+            CanStartUpdating = true;
             modelLayer.RemoveBalls();
             modelLayer.AddBalls(15);
-            modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius, modelLayer.Height - modelLayer.Radius);
+            modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius * 2, modelLayer.Height - modelLayer.Radius * 2);
+            movingThread.Start();
             Balls.Clear();
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
-                //RaisePropertyChanged(nameof(ball));
             }
             NotStarted = false;
         }
 
         private void UpdateClick()
         {
-            modelLayer.MoveBalls();
-            Balls.Clear();
-            foreach (ModelBall ball in modelLayer.balls)
+            if(!IsUpdating)
             {
-                Balls.Add(ball);
+                IsUpdating = true;
+                updatingThread = new Task(Update);
+                updatingThread.Start();
+                UpdateButton = "Stop";
+            }
+            else
+            {
+                UpdateButton = "Start";
+                IsUpdating = false;
+            }
+        }
+
+
+        private void Update()
+        {
+            while(IsUpdating)
+            {
+                ObservableCollection<ModelBall> newBalls = new ObservableCollection<ModelBall>(modelLayer.balls);
+                Balls = newBalls;
+                RaisePropertyChanged(nameof(Balls));
+                //Thread.Sleep(15);
             }
         }
 

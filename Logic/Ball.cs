@@ -51,9 +51,9 @@ namespace Logic
         }
         public void Move(int maxWidth, int maxHeight)
         {
-            if (Position_X + Radius + Direction[0] * Speed > maxWidth || Position_X - Radius + Direction[0] * Speed < 0)
+            if (Position_X + Radius * 2 + Direction[0] * Speed > maxWidth || Position_X + Direction[0] * Speed < 0)
                 SwitchDirections(true);
-            if (Position_Y + Radius + Direction[1] * Speed > maxHeight || Position_Y - Radius + Direction[1] * Speed < 0)
+            if (Position_Y + Radius * 2 + Direction[1] * Speed > maxHeight || Position_Y + Direction[1] * Speed < 0)
                 SwitchDirections(false);
 
             Position_X += Direction[0] * Speed;

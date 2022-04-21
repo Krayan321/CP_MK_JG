@@ -6,7 +6,21 @@ namespace Model
     public class ModelBall
     {
         private readonly Ball logicBall;
-        public string Color { get; set; }
+        public enum Color
+        {
+            Khaki,
+            LawnGreen,
+            HotPink,
+            MidnightBlue,
+            SteelBlue,
+            SpringGreen,
+            Yellow,
+            YellowGreen,
+            Tomato,
+            Red,
+            Ivory
+        }
+        public string BallColor { get; set; }
 
         public float Position_X
         {
@@ -26,12 +40,12 @@ namespace Model
         }
         public int Radius
         {
-            get { return logicBall.Radius; }
+            get { return logicBall.Radius * 2; }
         }
 
         public ModelBall(Ball logicBall, string Color = "Green")
         {
-            this.Color = Color;
+            this.BallColor = Color.ToString();
             this.logicBall = logicBall;
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Model
 {
@@ -28,7 +29,6 @@ namespace Model
     {
         public ModelLayer()
         {
-            
             Radius = 10;
             logicLayer = LogicAPI.CreateLayer();
             Width = logicLayer.Board.Width; 
@@ -46,13 +46,19 @@ namespace Model
             {
                 Ball newBall = new Ball();
                 logicLayer.AddBall(newBall);
-                balls.Add(new ModelBall(newBall));
+                Random rnd = new Random();
+                int color = rnd.Next(typeof(ModelBall.Color).GetFields().Length - 1);
+                balls.Add(new ModelBall(newBall, ((ModelBall.Color)color).ToString()));
             }
         }
 
         public override void MoveBalls()
         {
-            logicLayer.MoveBalls();
+            while(true)
+            {
+                logicLayer.MoveBalls();
+                Thread.Sleep(10);
+            }
         }
 
         public override void RandomizePositions(int maxWidth, int maxHeight)

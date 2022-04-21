@@ -9,6 +9,7 @@ namespace Model
     {
         internal LogicAPI logicLayer;
         public List<ModelBall> balls;
+        public int Radius { get; set; }
         public static ModelAPI CreateApi()
         {
             return new ModelLayer();
@@ -24,6 +25,7 @@ namespace Model
     {
         public ModelLayer()
         {
+            Radius = 10;
             logicLayer = LogicAPI.CreateLayer();
             balls = new List<ModelBall>();
             foreach (Ball ball in logicLayer.GetBalls())

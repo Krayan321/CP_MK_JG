@@ -66,12 +66,12 @@ namespace ViewModel
         {
             ButtonText = "Started";
             modelLayer.AddBalls(15);
-            modelLayer.RandomizePositions(500, 500);
+            modelLayer.RandomizePositions(780 - modelLayer.Radius, 350 - modelLayer.Radius);
             Balls.Clear();
             foreach (ModelBall ball in modelLayer.balls)
             {
                 Balls.Add(ball);
-                RaisePropertyChanged(nameof(ball));
+                //RaisePropertyChanged(nameof(ball));
             }
             
         }

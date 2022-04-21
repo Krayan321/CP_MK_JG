@@ -15,7 +15,8 @@ namespace ViewModel
         #region private
 
         private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
-        private string buttonText;
+        private bool notStarted = true;
+        private string buttonText = "Start";
         
 
         #endregion private
@@ -24,7 +25,18 @@ namespace ViewModel
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
-        public bool NotStarted { get; set; } = true;
+        public bool NotStarted 
+        { 
+            get
+            {
+                return notStarted;
+            } 
+            set
+            {
+                notStarted = value;
+                RaisePropertyChanged("NotStarted");
+            }
+        }
 
         public string ButtonText 
         {

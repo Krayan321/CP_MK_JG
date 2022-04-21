@@ -1,6 +1,7 @@
 using Model;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -30,6 +31,8 @@ namespace ViewModel
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
         public int NumberOfBalls { get; set; }
+
+        public CancellationToken Token { get; set; }
 
         public bool NotStarted
         {
@@ -90,7 +93,7 @@ namespace ViewModel
             {
                 value = Int32.Parse(TextBox);
 
-                if (value > 25)
+                if (value > 100)
                 {
                     Label = "Too many balls";
                     return 0;
@@ -161,12 +164,13 @@ namespace ViewModel
             if (!IsUpdating)
             {
                 IsUpdating = true;
-                updatingThread = new Task(Update);
+                updatingThread = new Task(Update, Token);
                 updatingThread.Start();
                 UpdateButton = "Stop";
             }
             else
             {
+                //movingThread.
                 UpdateButton = "Start";
                 IsUpdating = false;
             }

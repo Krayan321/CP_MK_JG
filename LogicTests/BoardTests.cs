@@ -51,5 +51,23 @@ namespace LogicTests
 
             Assert.AreEqual(testBoard.Balls.Count, 0);
         }
+
+        [TestMethod]
+        public void MoveBallsTest()
+        {
+            testBoard = new Board(testWidth, testHeight);
+            testBoard.AddBall(testBall);
+
+            testBall.Position_X = testWidth / 2;
+            testBall.Position_Y = testHeight / 2;
+
+            float position_X = testBall.Position_X;
+            float position_Y = testBall.Position_Y;
+
+            testBoard.MoveBalls();
+
+
+        }
+
     }
 }

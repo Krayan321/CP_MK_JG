@@ -54,14 +54,50 @@ namespace LogicTests
         public void RandomizePositionTest()
         {
             testBall = new Ball();
-            testBall.RandomizePosition(50, 50);
+            int maxNumber = 23;
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
             {
-                Assert.IsTrue(testBall.Position_X >= 10 && testBall.Position_X <= 50 - 10);
-                Assert.IsTrue(testBall.Position_Y >= 10 && testBall.Position_X <= 50 - 10);
+                testBall.RandomizePosition(maxNumber, maxNumber);
+                Assert.IsTrue(testBall.Position_X >= 10 && testBall.Position_X <= maxNumber - 10);
+                Assert.IsTrue(testBall.Position_Y >= 10 && testBall.Position_X <= maxNumber - 10);
             }
+        }
+
+        [TestMethod]
+        public void SwitchDirectionTest()
+        {
+            testBall = new Ball();
+
+            int x = 1;
+            int x2 = 1;
+            int y = -1;
+            int y2 = -1;
+            if (testBall.Direction[0] < 0)
+                x = -x;
+            if (testBall.Direction[1] < 0)
+                x2 = -x;
+
+            testBall.SwitchDirections(true);
+            testBall.SwitchDirections(false);
+
+            if (testBall.Direction[0] < 0)
+                y = -y;
+            if (testBall.Direction[1] < 0)
+                y2 = -y2;
+        }
+
+        [TestMethod]
+        public void RandomizeMovementTest()
+        {
+            testBall = new Ball();
             
+            testBall.RandomizeMovement();
+
+            Assert.IsTrue(testBall.Speed >= 1 && testBall.Speed <= 10);
+
+            Assert.IsTrue(testBall.Direction[0] >= -1 && testBall.Direction[0] <= 1);
+            Assert.IsTrue(testBall.Direction[1] >= -1 && testBall.Direction[1] <= 1);
         }
     }
 }

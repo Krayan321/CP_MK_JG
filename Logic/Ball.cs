@@ -25,7 +25,7 @@ namespace Logic
 
         }
 
-        private void RandomizeMovement()
+        public void RandomizeMovement()
         {
             this.Speed = 1 + rnd.Next(10);
 
@@ -38,11 +38,11 @@ namespace Logic
 
         public void RandomizePosition(int maxWidth, int maxHeight)
         {
-            this.Position_X = this.Radius + rnd.Next(maxWidth - this.Radius);
-            this.Position_Y = this.Radius + rnd.Next(maxHeight - this.Radius);
+            this.Position_X = this.Radius + rnd.Next(maxWidth - this.Radius * 2);
+            this.Position_Y = this.Radius + rnd.Next(maxHeight - this.Radius * 2);
         }
 
-        private void SwitchDirections(bool direction_X)
+        public void SwitchDirections(bool direction_X)
         {
             if (direction_X) 
                 this.Direction[0] *= -1;

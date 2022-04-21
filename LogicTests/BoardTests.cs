@@ -66,7 +66,8 @@ namespace LogicTests
 
             testBoard.MoveBalls();
 
-
+            Assert.IsTrue(position_X != testBall.Position_X);
+            Assert.IsTrue(position_Y != testBall.Position_Y);
         }
 
     }

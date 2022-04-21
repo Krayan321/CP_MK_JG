@@ -7,7 +7,9 @@
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="830" ResizeMode="NoResize">
-    
+    <Window.DataContext>
+        <mv:MainWindowViewModel />
+    </Window.DataContext>
     <Grid>
         <Button Content="{Binding ButtonText}" Width="50" Height="30" HorizontalAlignment="Left" Margin="10,388,0,0" VerticalAlignment="Top" Command="{Binding StartButtonClick}"/>
         <TextBox HorizontalAlignment="Left" Margin="80,394,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>

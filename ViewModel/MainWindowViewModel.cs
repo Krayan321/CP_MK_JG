@@ -17,7 +17,8 @@ namespace ViewModel
         private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
         private bool notStarted = true;
         private string buttonText = "Start";
-        
+        private string textBox;
+        private string inputMessage;
 
         #endregion private
 
@@ -25,6 +26,9 @@ namespace ViewModel
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
+
+
+
         public bool NotStarted 
         { 
             get
@@ -49,6 +53,37 @@ namespace ViewModel
                 buttonText = value;
                 RaisePropertyChanged("ButtonText");
             }
+        }
+
+        public int TextBoxValue()
+        {
+            
+            while (Int32.TryParse(textBox, out int value))
+            {
+                value = Int32.Parse(textBox);
+                
+                
+                while (value > 25)
+                {
+                    inputMessage = "Za dużo kulek";
+                    return 0;
+                }
+                return value;
+            }
+            inputMessage = "Zły input";
+            return 0;
+        }
+
+        public string InputMessage
+        {
+            get { return inputMessage; }
+            set { inputMessage = value; RaisePropertyChanged(); }
+        }
+
+        public string TextBox
+        {
+            get {  return textBox; }
+            set { textBox = value; RaisePropertyChanged(); }
         }
 
         public MainWindowViewModel() : this(ModelAPI.CreateApi())

@@ -11,8 +11,8 @@
         <mv:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-        <Button IsEnabled="{Binding NotStarted}" Content="{Binding ButtonText}" Width="50" Height="30" HorizontalAlignment="Left" Margin="10,388,0,0" VerticalAlignment="Top" Command="{Binding StartButtonClick}"/>
-        <TextBox HorizontalAlignment="Left" Margin="80,394,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button IsEnabled="{Binding NotStarted}" Content="{Binding ButtonText}" Width="130" Height="72" HorizontalAlignment="Left" Margin="170,377,0,0" VerticalAlignment="Top" Command="{Binding StartButtonClick}"/>
+        <TextBox Name="textBox" Text="{Binding TextBox}" HorizontalAlignment="Left" Margin="325,404,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
         <ItemsControl ItemsSource="{Binding Balls}">
 
             <ItemsControl.ItemsPanel>
@@ -34,6 +34,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Content="Update" Width="50" Height="30" HorizontalAlignment="Left" Margin="224,388,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
+        <Button Content="Update" Width="130" Height="72" HorizontalAlignment="Left" Margin="473,377,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
     </Grid>
 </Window>

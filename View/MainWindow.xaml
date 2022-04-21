@@ -6,20 +6,12 @@
         xmlns:mv="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="786" ResizeMode="NoResize">
+        Title="MainWindow" Height="520" Width="786" ResizeMode="NoResize">
     <Window.DataContext>
         <mv:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-
-       
-        <TextBox Name="textBox" Text="{Binding TextBox}" HorizontalAlignment="Left" Margin="325,404,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
-
-        <Button IsEnabled="{Binding NotStarted}" Content="{Binding ButtonText}" Width="60" Height="30" HorizontalAlignment="Left" Margin="10,388,0,0" VerticalAlignment="Top" Command="{Binding StartButtonClick}"/>
-        
-
         <ItemsControl ItemsSource="{Binding Balls}">
-
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Background="Black" Width="750" Height="350" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
@@ -39,10 +31,12 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-       
-
-        <Button IsEnabled="{Binding CanStartUpdating}"  Content="{Binding UpdateButton}" Width="50" Height="30" HorizontalAlignment="Left" Margin="205,388,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
+        
+        <Label Content="{Binding Label}" Margin="328,403,344,25" />
+        <Button IsEnabled="{Binding CanStartUpdating}"  Content="{Binding UpdateButton}" Width="313" Height="110" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Command="{Binding UpdateButtonClick}"/>
+        <TextBox Name="textBox" Text="{Binding TextBox}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" Margin="328,369,0,0" Height="29"/>
+        <Button IsEnabled="{Binding NotStarted}" Content="{Binding ButtonText}" Width="313" Height="110" HorizontalAlignment="Left" Margin="447,369,0,0" VerticalAlignment="Top" Command="{Binding StartButtonClick}"/>
+        
 
     </Grid>
 </Window>

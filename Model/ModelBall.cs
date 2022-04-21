@@ -11,14 +11,27 @@ namespace Model
             Khaki,
             LawnGreen,
             HotPink,
-            MidnightBlue,
             SteelBlue,
             SpringGreen,
             Yellow,
             YellowGreen,
             Tomato,
             Red,
-            Ivory
+            Ivory,
+            Crimson,
+            Chartreuse,
+            Coral,
+            Chocolate,
+            DarkOliveGreen,
+            DarkGreen,
+            LightSeaGreen,
+            Lime,
+            LimeGreen,
+            Linen,
+            Magenta,
+            Maroon,
+            Orchid,
+            Lavender
         }
         public string BallColor { get; set; }
 

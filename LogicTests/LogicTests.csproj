@@ -52,7 +52,6 @@
     <Compile Include="BallTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoardTests.cs" />
-    <Compile Include="LogicAPITests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

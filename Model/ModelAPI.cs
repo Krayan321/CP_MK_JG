@@ -30,7 +30,7 @@ namespace Model
         public ModelLayer()
         {
             Radius = 10;
-            logicLayer = LogicAPI.CreateLayer();
+            logicLayer = logicLayer ?? LogicAPI.CreateLayer();
             Width = logicLayer.Board.Width; 
             Height = logicLayer.Board.Height;
             balls = new List<ModelBall>();

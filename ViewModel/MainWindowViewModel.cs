@@ -1,9 +1,6 @@
 using Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -17,39 +14,36 @@ namespace ViewModel
         private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
         private bool notStarted = true;
 
-        
         private string textBox;
-        private string inputMessage;
-
+        private string label;
         private string buttonText;
         private string updateButton;
         private bool canStartUpdating = false;
         private Task movingThread;
         private Task updatingThread;
 
-
-
         #endregion private
 
         #region public API
+
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
+        public int NumberOfBalls { get; set; }
 
-
-
-        public bool NotStarted 
-        { 
+        public bool NotStarted
+        {
             get
             {
                 return notStarted;
-            } 
+            }
             set
             {
                 notStarted = value;
                 RaisePropertyChanged("NotStarted");
             }
         }
+
         public bool CanStartUpdating
         {
             get
@@ -63,7 +57,7 @@ namespace ViewModel
             }
         }
 
-        public string ButtonText 
+        public string ButtonText
         {
             get
             {
@@ -75,6 +69,7 @@ namespace ViewModel
                 RaisePropertyChanged("ButtonText");
             }
         }
+
         public string UpdateButton
         {
             get
@@ -90,38 +85,36 @@ namespace ViewModel
 
         public int TextBoxValue()
         {
-            
-            while (Int32.TryParse(textBox, out int value))
+            Label = "";
+            if (Int32.TryParse(textBox, out int value))
             {
-                value = Int32.Parse(textBox);
-                
-                
-                while (value > 25)
+                value = Int32.Parse(TextBox);
+
+                if (value > 25)
                 {
-                    inputMessage = "Za dużo kulek";
+                    Label = "Too many balls";
                     return 0;
                 }
                 return value;
             }
-            inputMessage = "Zły input";
+            Label = "Wrong input";
             return 0;
         }
 
-        public string InputMessage
+        public string Label
         {
-            get { return inputMessage; }
-            set { inputMessage = value; RaisePropertyChanged(); }
+            get { return label; }
+            set { label = value; RaisePropertyChanged("Label"); }
         }
 
         public string TextBox
         {
-            get {  return textBox; }
-            set { textBox = value; RaisePropertyChanged(); }
+            get { return textBox; }
+            set { textBox = value; RaisePropertyChanged("TextBox"); }
         }
 
         public MainWindowViewModel() : this(ModelAPI.CreateApi())
         {
-
         }
 
         public MainWindowViewModel(ModelAPI modelApi)
@@ -140,16 +133,19 @@ namespace ViewModel
 
         public ObservableCollection<ModelBall> Balls { get; set; }
 
-       
-
         private void StartClick()
         {
             ButtonText = "Generated";
             movingThread = new Task(modelLayer.MoveBalls);
             updatingThread = new Task(Update);
-            CanStartUpdating = true;
+            int numberOfBalls = TextBoxValue();
+            if (numberOfBalls > 0)
+            {
+                CanStartUpdating = true;
+                NotStarted = false;
+            }
             modelLayer.RemoveBalls();
-            modelLayer.AddBalls(15);
+            modelLayer.AddBalls(numberOfBalls);
             modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius * 2, modelLayer.Height - modelLayer.Radius * 2);
             movingThread.Start();
             Balls.Clear();
@@ -157,12 +153,12 @@ namespace ViewModel
             {
                 Balls.Add(ball);
             }
-            NotStarted = false;
+            
         }
 
         private void UpdateClick()
         {
-            if(!IsUpdating)
+            if (!IsUpdating)
             {
                 IsUpdating = true;
                 updatingThread = new Task(Update);
@@ -176,10 +172,9 @@ namespace ViewModel
             }
         }
 
-
         private void Update()
         {
-            while(IsUpdating)
+            while (IsUpdating)
             {
                 ObservableCollection<ModelBall> newBalls = new ObservableCollection<ModelBall>(modelLayer.balls);
                 Balls = newBalls;

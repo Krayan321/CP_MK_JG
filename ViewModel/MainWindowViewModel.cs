@@ -19,8 +19,8 @@ namespace ViewModel
         private string buttonText;
         private string updateButton;
         private bool canStartUpdating = false;
-        private Thread movingThread;
-        private Thread updatingThread;
+        private Task movingThread;
+        private Task updatingThread;
 
 
         #endregion private
@@ -71,11 +71,11 @@ namespace ViewModel
         {
             get
             {
-                return buttonText;
+                return updateButton;
             }
             set
             {
-                buttonText = value;
+                updateButton = value;
                 RaisePropertyChanged("UpdateButton");
             }
         }
@@ -106,8 +106,8 @@ namespace ViewModel
         private void StartClick()
         {
             ButtonText = "Generated";
-            movingThread = new Thread(modelLayer.MoveBalls);
-            updatingThread = new Thread(Update);
+            movingThread = new Task(modelLayer.MoveBalls);
+            updatingThread = new Task(Update);
             CanStartUpdating = true;
             modelLayer.RemoveBalls();
             modelLayer.AddBalls(15);
@@ -126,7 +126,7 @@ namespace ViewModel
             if(!IsUpdating)
             {
                 IsUpdating = true;
-                updatingThread = new Thread(Update);
+                updatingThread = new Task(Update);
                 updatingThread.Start();
                 UpdateButton = "Stop";
             }

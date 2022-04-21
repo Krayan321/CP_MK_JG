@@ -47,7 +47,7 @@ namespace Model
                 Ball newBall = new Ball();
                 logicLayer.AddBall(newBall);
                 Random rnd = new Random();
-                int color = rnd.Next(typeof(ModelBall.Color).GetFields().Length);
+                int color = rnd.Next(typeof(ModelBall.Color).GetFields().Length - 1);
                 balls.Add(new ModelBall(newBall, ((ModelBall.Color)color).ToString()));
             }
         }

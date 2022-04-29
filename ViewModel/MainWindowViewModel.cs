@@ -32,8 +32,6 @@ namespace ViewModel
         public bool IsUpdating { get; set; } = false;
         public int NumberOfBalls { get; set; }
 
-        public CancellationToken Token { get; set; }
-
         public bool NotStarted
         {
             get
@@ -164,7 +162,7 @@ namespace ViewModel
             if (!IsUpdating)
             {
                 IsUpdating = true;
-                updatingThread = new Task(Update, Token);
+                updatingThread = new Task(Update);
                 updatingThread.Start();
                 UpdateButton = "Stop";
             }
@@ -180,9 +178,7 @@ namespace ViewModel
         {
             while (IsUpdating)
             {
-                ObservableCollection<ModelBall> newBalls = new ObservableCollection<ModelBall>(modelLayer.balls);
-                Balls = newBalls;
-                RaisePropertyChanged(nameof(Balls));
+                Balls = new ObservableCollection<ModelBall>(modelLayer.balls);
                 //Thread.Sleep(15);
             }
         }

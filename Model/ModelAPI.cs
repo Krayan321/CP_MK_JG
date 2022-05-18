@@ -1,6 +1,7 @@
 ﻿using Logic;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading;
 
@@ -23,6 +24,13 @@ namespace Model
         public abstract void MoveBalls();
         public abstract void RandomizePositions(int maxWidth, int maxHeight);
 
+    }
+
+    public interface IBall : INotifyPropertyChanged
+    {
+        double Top { get; }
+        double Left { get; }
+        int Diameter { get; }
     }
 
     internal class ModelLayer : ModelAPI

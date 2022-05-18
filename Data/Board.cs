@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logic
+namespace Data
 {
     public class Board
     {
@@ -41,17 +41,9 @@ namespace Logic
             }
         }
 
-        public void MoveBalls()
+        public Ball GetBall(int id)
         {
-            foreach (Ball ball in Balls)
-            {
-                ball.Move(Width, Height);
-            }
-        }
-
-        public List<Ball> GetBalls()
-        {
-            return this.Balls;
+            return Balls[id];
         }
     }
 }

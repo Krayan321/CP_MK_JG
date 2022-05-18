@@ -1,11 +1,38 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Logic;
 
 namespace Model
 {
-    public class ModelBall
+    public class ModelBall : IBall
     {
-        private readonly Ball logicBall;
+        //private readonly Ball logicBall;
+        public int Diameter { get; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private double top;
+        private double left;
+        public double Top
+        {
+            get { return top; }
+            set
+            {
+                if (top == value) return;
+                top = value;
+                RaisePropertyChanged();
+            }
+        }
+        
+        public double Left 
+        { 
+            get { return left; } 
+            set 
+            {
+                if (left == value) return;
+                left = value; 
+                RaisePropertyChanged();
+            } 
+        }
         public enum Color
         {
             Khaki,
@@ -35,31 +62,23 @@ namespace Model
         }
         public string BallColor { get; set; }
 
-        public float Position_X
-        {
-            get { return logicBall.Position_X; }
-        }
-        public float Position_Y
-        {
-            get { return logicBall.Position_Y; }
-        }
-        public float[] Direction
-        {
-            get { return logicBall.Direction; }
-        }
-        public float Speed
-        {
-            get { return logicBall.Speed; }
-        }
-        public int Radius
-        {
-            get { return logicBall.Radius * 2; }
-        }
-
-        public ModelBall(Ball logicBall, string Color = "Green")
+        public ModelBall(string Color = "Green", double top, double left, int radius)
         {
             this.BallColor = Color.ToString();
-            this.logicBall = logicBall;
+            Top = top;
+            Left = left;
+            Diameter = radius * 2;
+        }
+
+        public void Move(double poitionX, double positionY)
+        {
+            Left = poitionX;
+            Top = positionY;
+        }
+
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

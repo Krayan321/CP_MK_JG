@@ -86,8 +86,8 @@ namespace DataTests
 
             testBall.RandomizeMovement();
 
-            Assert.IsTrue(testBall.Movement[0] >= -1 && testBall.Movement[0] <= 1);
-            Assert.IsTrue(testBall.Movement[1] >= -1 && testBall.Movement[1] <= 1);
+            Assert.IsTrue(testBall.Movement[0] >= -5 && testBall.Movement[0] <= 5);
+            Assert.IsTrue(testBall.Movement[1] >= -5 && testBall.Movement[1] <= 5);
         }
 
         

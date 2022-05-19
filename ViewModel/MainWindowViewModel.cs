@@ -12,7 +12,7 @@ namespace ViewModel
     {
         #region private
 
-        private readonly ModelAPI modelLayer = ModelAPI.CreateApi();
+        private readonly ModelAPI Model = ModelAPI.CreateApi();
         private bool notStarted = true;
 
         private string textBox;
@@ -25,12 +25,12 @@ namespace ViewModel
 
         #endregion private
 
-        #region public API
 
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
         public bool IsUpdating { get; set; } = false;
         public int NumberOfBalls { get; set; }
+        public ObservableCollection<IBall> Balls { get; set; }
 
         public bool NotStarted
         {
@@ -120,11 +120,12 @@ namespace ViewModel
 
         public MainWindowViewModel(ModelAPI modelApi)
         {
-            modelLayer = modelApi;
-            Balls = new ObservableCollection<ModelBall>();
+            Model = modelApi;
+            Balls = new ObservableCollection<IBall>();
+            IDisposable observer = Model.Subscribe<IBall>(x => Balls.Add(x));
             ButtonText = "Generate";
             UpdateButton = "Start";
-            foreach (ModelBall ball in modelLayer.balls)
+            foreach (ModelBall ball in Model.balls)
             {
                 Balls.Add(ball);
             }
@@ -132,57 +133,33 @@ namespace ViewModel
             UpdateButtonClick = new RelayCommand(() => UpdateClick());
         }
 
-        public ObservableCollection<ModelBall> Balls { get; set; }
-
         private void StartClick()
         {
             ButtonText = "Generated";
-            movingThread = new Task(modelLayer.MoveBalls);
-            updatingThread = new Task(Update);
+            //movingThread = new Task(Model.MoveBalls);
+            //updatingThread = new Task(Update);
             int numberOfBalls = TextBoxValue();
             if (numberOfBalls > 0)
             {
                 CanStartUpdating = true;
                 NotStarted = false;
             }
-            modelLayer.RemoveBalls();
-            modelLayer.AddBalls(numberOfBalls);
-            modelLayer.RandomizePositions(modelLayer.Width - modelLayer.Radius * 2, modelLayer.Height - modelLayer.Radius * 2);
-            movingThread.Start();
+            //modelLayer.RemoveBalls();
+            Model.AddNewBalls(numberOfBalls);
+            Model.RandomizePositions(Model.Size[0] - Model.Radius * 2, Model.Size[1] - Model.Radius * 2);
+            //movingThread.Start();
             Balls.Clear();
-            foreach (ModelBall ball in modelLayer.balls)
+            foreach (ModelBall ball in Model.balls)
             {
                 Balls.Add(ball);
             }
-            
         }
 
         private void UpdateClick()
         {
-            if (!IsUpdating)
-            {
-                IsUpdating = true;
-                updatingThread = new Task(Update);
-                updatingThread.Start();
-                UpdateButton = "Stop";
-            }
-            else
-            {
-                //movingThread.
-                UpdateButton = "Start";
-                IsUpdating = false;
-            }
+            Model.MoveBalls(!IsUpdating);
+            IsUpdating = !IsUpdating;
+            CanStartUpdating = false;
         }
-
-        private void Update()
-        {
-            while (IsUpdating)
-            {
-                Balls = new ObservableCollection<ModelBall>(modelLayer.balls);
-                //Thread.Sleep(15);
-            }
-        }
-
-        #endregion public API
     }
 }

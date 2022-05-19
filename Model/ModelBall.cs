@@ -8,10 +8,11 @@ namespace Model
     public class ModelBall : IBall
     {
         //private readonly Ball logicBall;
+        public int Id { get; set; }
         public int Diameter { get; }
         public event PropertyChangedEventHandler PropertyChanged;
-        private double top;
         private double left;
+        private double top;
         public double Top
         {
             get { return top; }
@@ -62,8 +63,9 @@ namespace Model
         }
         public string BallColor { get; set; }
 
-        public ModelBall(string Color = "Green", double top, double left, int radius)
+        public ModelBall(int id, double left, double top, int radius, string Color = "Green")
         {
+            Id = id;
             this.BallColor = Color.ToString();
             Top = top;
             Left = left;

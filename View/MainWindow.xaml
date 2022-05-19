@@ -20,14 +20,17 @@
 
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding Position_X}" />
-                    <Setter Property="Canvas.Top" Value="{Binding Position_Y}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Top}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Ellipse Width="{Binding Radius}" Height="{Binding Radius}" Fill="{Binding BallColor}" />
+                    <StackPanel>
+                        <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="{Binding BallColor}" />
+                        <TextBlock FontSize="15px" Foreground="AntiqueWhite" Text="{Binding Diameter}" />
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

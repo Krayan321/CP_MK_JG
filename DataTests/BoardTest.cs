@@ -42,12 +42,12 @@ namespace DataTests
         [TestMethod]
         public void AddBallsTest()
         {
-            testBoard = new Board(testWidth, testHeight, 0);
+            testBoard = new Board(testWidth, testHeight);
 
             testBoard.AddBall();
 
             Assert.AreEqual(testBoard.Balls.Count, 1);
-            Assert.AreEqual(testBoard.Balls[0], testBall);
+            
 
 
         }

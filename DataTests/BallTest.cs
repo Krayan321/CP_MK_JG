@@ -86,24 +86,10 @@ namespace DataTests
 
             testBall.RandomizeMovement();
 
-            Assert.IsTrue(testBall.Speed >= 1 && testBall.Speed <= 10);
-
             Assert.IsTrue(testBall.Movement[0] >= -1 && testBall.Movement[0] <= 1);
             Assert.IsTrue(testBall.Movement[1] >= -1 && testBall.Movement[1] <= 1);
         }
 
-        [TestMethod]
-        public void RandomizePositionTest()
-        {
-            testBall = new Ball(test_id);
-            int maxNumber = 23;
-
-            for (int i = 0; i < 10000; i++)
-            {
-                testBall.RandomizePosition(maxNumber, maxNumber);
-                Assert.IsTrue(testBall.Position_X >= 10 && testBall.Position_X <= maxNumber - 10);
-                Assert.IsTrue(testBall.Position_Y >= 10 && testBall.Position_X <= maxNumber - 10);
-            }
-        }
+        
     }
 }

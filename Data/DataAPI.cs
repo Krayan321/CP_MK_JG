@@ -6,15 +6,6 @@ namespace Data
 {
     public abstract class DataAPI : IObserver<Ball>, IObservable<Ball>
     {
-        /*public float Position_X { get; set; }
-        public float Position_Y { get; set; }
-        public float[] Direction { get; set; }
-        public float Speed { get; set; }
-        public int Radius { get; set; }
-        public int Id { get; }
-        public double Mass { get; set; }*/
-        //public abstract Ball GetBall(int id);
-        //public abstract List<Ball> GetBalls();
         public abstract int AddBall();
         public abstract int[] GetSize();
         public abstract void OnCompleted();

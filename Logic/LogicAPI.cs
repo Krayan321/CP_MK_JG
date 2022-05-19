@@ -27,7 +27,7 @@ namespace Logic
 
         
 
-        private class BusinessLogic : LogicAPI
+        public class BusinessLogic : LogicAPI
         {
             private readonly DataAPI Data;
             private IDisposable unsubscriber;
@@ -45,6 +45,37 @@ namespace Logic
                 for (int i = 0; i < Data.GetBallsCount(); i++)
                 {
                     Data.StartMovingBall(i, start);
+                }
+            }
+
+            private void CheckBorders(int id)
+            {
+                float Position_X = Data.GetBallPositionX(id);
+                float Position_Y = Data.GetBallPositionY(id);
+                float[] Movement = Data.GetBallMovement(id);
+                int Radius = Data.GetBallRadius(id);
+
+                if (Position_X + Radius * 2 + Movement[0] > Size[0] || Position_X + Movement[0] < 0)
+                    SwitchDirections(id, true);
+                if (Position_Y + Radius * 2 + Movement[1] > Size[1] || Position_Y + Movement[1] < 0)
+                    SwitchDirections(id, false);
+            }
+
+            private void CheckCollisions(int id)
+            {
+                for (int i = 0; i < Data.GetBallsCount(); i++)
+                {
+                    if (i == id) continue;
+
+                    double distance = Math.Sqrt(Math.Pow((Data.GetBallPositionX(id) + Data.GetBallMovement(id)[0]) - (Data.GetBallPositionX(i) + Data.GetBallMovement(i)[0]), 2)
+                                              + Math.Pow((Data.GetBallPositionY(id) + Data.GetBallMovement(id)[1]) - (Data.GetBallPositionY(i) + Data.GetBallMovement(i)[1]), 2));
+
+                    if (Math.Abs(distance) <= Data.GetBallRadius(id) + Data.GetBallRadius(i))
+                    {
+                        float[] newMovement = ImpulseSpeed(id, i);
+                        Data.SetBallMovements(id, new float[2] { newMovement[0], newMovement[1] });
+                        Data.SetBallMovements(i, new float[2] { newMovement[2], newMovement[3] });
+                    }
                 }
             }
 
@@ -78,6 +109,12 @@ namespace Logic
             {
                 return Data.GetBallRadius(id);
             }
+            public BusinessLogic(DataAPI dataLayerAPI, bool sub)
+            {
+                Data = dataLayerAPI;
+                observers = new List<IObserver<int>>();
+                Size = Data.GetSize();
+            }
 
             #region observer
 
@@ -95,37 +132,6 @@ namespace Logic
             public override void OnError(Exception error)
             {
                 throw error;
-            }
-
-            private void CheckBorders(int id)
-            {
-                float Position_X = Data.GetBallPositionX(id);
-                float Position_Y = Data.GetBallPositionY(id);
-                float[] Movement = Data.GetBallMovement(id);
-                int Radius = Data.GetBallRadius(id);
-
-                if (Position_X + Radius * 2 + Movement[0] > Size[0] || Position_X + Movement[0] < 0)
-                    SwitchDirections(id, true);
-                if (Position_Y + Radius * 2 + Movement[1] > Size[1] || Position_Y + Movement[1] < 0)
-                    SwitchDirections(id, false);
-            }
-
-            private void CheckCollisions(int id)
-            {
-                for (int i = 0; i < Data.GetBallsCount(); i++)
-                {
-                    if (i == id) continue;
-
-                    double distance = Math.Sqrt(Math.Pow((Data.GetBallPositionX(id) + Data.GetBallMovement(id)[0]) - (Data.GetBallPositionX(i) + Data.GetBallMovement(i)[0]), 2) 
-                                              + Math.Pow((Data.GetBallPositionY(id) + Data.GetBallMovement(id)[1]) - (Data.GetBallPositionY(i) + Data.GetBallMovement(i)[1]), 2));
-
-                    if (Math.Abs(distance) <= Data.GetBallRadius(id) + Data.GetBallRadius(i))
-                    {
-                        float [] newMovement = ImpulseSpeed(id, i);
-                        Data.SetBallMovements(id, new float [2] { newMovement[0], newMovement[1]});
-                        Data.SetBallMovements(i, new float[2] { newMovement[2], newMovement[3] });
-                    }
-                }
             }
 
             public override void OnNext(Ball Ball)

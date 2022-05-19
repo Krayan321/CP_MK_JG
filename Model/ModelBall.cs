@@ -1,18 +1,19 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Logic;
 
 namespace Model
 {
     public class ModelBall : IBall
     {
-        //private readonly Ball logicBall;
         public int Id { get; set; }
+
         public int Diameter { get; }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         private double left;
         private double top;
+
         public double Top
         {
             get { return top; }
@@ -23,17 +24,18 @@ namespace Model
                 RaisePropertyChanged();
             }
         }
-        
-        public double Left 
-        { 
-            get { return left; } 
-            set 
+
+        public double Left
+        {
+            get { return left; }
+            set
             {
                 if (left == value) return;
-                left = value; 
+                left = value;
                 RaisePropertyChanged();
-            } 
+            }
         }
+
         public enum Color
         {
             Khaki,
@@ -61,6 +63,7 @@ namespace Model
             Orchid,
             Lavender
         }
+
         public string BallColor { get; set; }
 
         public ModelBall(int id, double left, double top, int radius, string Color = "Green")

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading;
 
 namespace Model
 {
@@ -15,19 +13,28 @@ namespace Model
         public List<ModelBall> balls;
         public int Radius { get; set; }
         public int[] Size { get; set; }
+
         public static ModelAPI CreateApi()
         {
             return new ModelLayer();
         }
 
         public abstract void AddBalls(int numberOfBalls);
+
         public abstract void AddNewBalls(int numberOfBalls);
+
         public abstract void MoveBalls(bool start);
+
         public abstract void RandomizePositions(int maxWidth, int maxHeight);
+
         public abstract void Subscribe(IObservable<int> provider);
+
         public abstract void OnCompleted();
+
         public abstract void OnError(Exception error);
+
         public abstract void OnNext(int value);
+
         public abstract IDisposable Subscribe(IObserver<IBall> observer);
     }
 
@@ -45,10 +52,6 @@ namespace Model
 
     public interface INotifyBallChanged
     {
-        //     Occurs when a property value changes.
-        /// <summary>
-        /// Occurs when a ball value changes..
-        /// </summary>
         event EventHandler<BallChangeEventArgs> BallChanged;
     }
 
@@ -56,8 +59,11 @@ namespace Model
     {
         private IDisposable unsubscriber;
         private IList<IObserver<int>> observers;
+
         public event EventHandler<BallChangeEventArgs> BallChanged;
+
         private IObservable<EventPattern<BallChangeEventArgs>> eventObservable = null;
+
         public ModelLayer()
         {
             eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
@@ -115,7 +121,9 @@ namespace Model
         {
             Logic.RandomizePositions(maxWidth, maxHeight);
         }
+
         #region observer
+
         public override void Subscribe(IObservable<int> provider)
         {
             if (provider != null)
@@ -137,7 +145,8 @@ namespace Model
             UpdateBall(id);
         }
 
-        #endregion
+        #endregion observer
+
         #region provider
 
         public override IDisposable Subscribe(IObserver<IBall> observer)
@@ -145,6 +154,6 @@ namespace Model
             return eventObservable.Subscribe(x => observer.OnNext(x.EventArgs.Ball), ex => observer.OnError(ex), () => observer.OnCompleted());
         }
 
-        #endregion
+        #endregion provider
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 
@@ -13,7 +12,7 @@ namespace Data
         public float[] Movement { get; set; }
         public float Speed { get; set; }
         public int Radius { get; set; }
-        public int Id { get;}
+        public int Id { get; }
         public float Mass { get; set; }
         internal readonly IList<IObserver<Ball>> observers;
         private readonly Random rnd = new Random();
@@ -29,11 +28,10 @@ namespace Data
             Radius = radius;
             observers = new List<IObserver<Ball>>();
             RandomizeMovement();
-            //Movement = new float[2] { Direction[0] * Speed, Direction[1] * Speed };
         }
+
         public Ball(int id) : this(10, 10, 10, id, 10)
         {
-
         }
 
         public void RandomizeMovement()
@@ -56,19 +54,15 @@ namespace Data
 
         public void SwitchDirections(bool direction_X)
         {
-            if (direction_X) 
+            if (direction_X)
                 this.Movement[0] *= -1;
             else
                 this.Movement[1] *= -1;
             NotifyObservers();
         }
+
         public void Move()
         {
-            /*if (Position_X + Radius * 2 + Direction[0] * Speed > maxWidth || Position_X + Direction[0] * Speed < 0)
-                SwitchDirections(true);
-            if (Position_Y + Radius * 2 + Direction[1] * Speed > maxHeight || Position_Y + Direction[1] * Speed < 0)
-                SwitchDirections(false);*/
-
             Position_X += Movement[0];
             Position_Y += Movement[1];
             NotifyObservers();
@@ -92,7 +86,6 @@ namespace Data
                     observer.OnNext(this);
                 }
             }
-            //System.Threading.Thread.Sleep(1);
         }
 
         public void StartMovingThread()

@@ -1,7 +1,6 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {
@@ -10,28 +9,38 @@ namespace Logic
         public Board Board { get; set; }
 
         public abstract void MoveBalls(bool Start);
+
         public abstract int AddBall();
+
         public abstract void RandomizePositions(int maxWidth, int maxHeight);
+
         public abstract float[] GetBallPosition(int id);
+
         public abstract int GetBallRadius(int id);
+
         public abstract int GetBallsCount();
+
         public abstract void OnCompleted();
+
         public abstract void OnError(Exception error);
+
         public abstract void OnNext(Ball Ball);
+
         public int[] Size { get; set; }
+
         public abstract IDisposable Subscribe(IObserver<int> observer);
+
         public static LogicAPI CreateLayer(DataAPI data = default)
         {
             return new BusinessLogic(data ?? DataAPI.CreateDataBase(750, 350));
         }
-
-        
 
         public class BusinessLogic : LogicAPI
         {
             private readonly DataAPI Data;
             private IDisposable unsubscriber;
             private IList<IObserver<int>> observers;
+
             public BusinessLogic(DataAPI dataLayerAPI)
             {
                 Data = dataLayerAPI;
@@ -109,6 +118,7 @@ namespace Logic
             {
                 return Data.GetBallRadius(id);
             }
+
             public BusinessLogic(DataAPI dataLayerAPI, bool sub)
             {
                 Data = dataLayerAPI;
@@ -161,8 +171,8 @@ namespace Logic
                 float[] velocity = new float[2] { Data.GetBallMovement(id)[0], Data.GetBallMovement(id)[1] };
                 float[] position = new float[2] { Data.GetBallPositionX(id), Data.GetBallPositionY(id) };
 
-                float [] velocityOther = new float[2] { Data.GetBallMovement(id2)[0], Data.GetBallMovement(id2)[1] };
-                float [] positionOther = new float[2] { Data.GetBallPositionX(id2), Data.GetBallPositionY(id2) };
+                float[] velocityOther = new float[2] { Data.GetBallMovement(id2)[0], Data.GetBallMovement(id2)[1] };
+                float[] positionOther = new float[2] { Data.GetBallPositionX(id2), Data.GetBallPositionY(id2) };
 
                 float fDistance = (float)Math.Sqrt((position[0] - positionOther[0]) * (position[0] - positionOther[0]) + (position[1] - positionOther[1]) * (position[1] - positionOther[1]));
 
@@ -172,15 +182,12 @@ namespace Logic
                 float tx = -ny;
                 float ty = nx;
 
-                // Dot Product Tangent
                 float dpTan1 = velocity[0] * tx + velocity[1] * ty;
                 float dpTan2 = velocityOther[0] * tx + velocityOther[1] * ty;
 
-                // Dot Product Normal
                 float dpNorm1 = velocity[0] * nx + velocity[1] * ny;
                 float dpNorm2 = velocityOther[0] * nx + velocityOther[1] * ny;
 
-                // Conservation of momentum in 1D
                 float m1 = (dpNorm1 * (mass - otherMass) + 2.0f * otherMass * dpNorm2) / (mass + otherMass);
                 float m2 = (dpNorm2 * (otherMass - mass) + 2.0f * mass * dpNorm1) / (mass + otherMass);
 
@@ -195,7 +202,7 @@ namespace Logic
                 return newMovements;
             }
 
-            #endregion
+            #endregion observer
 
             #region provider
 
@@ -225,9 +232,7 @@ namespace Logic
                 }
             }
 
-            #endregion
+            #endregion provider
         }
     }
-
 }
-

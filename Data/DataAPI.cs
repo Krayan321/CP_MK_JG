@@ -7,23 +7,41 @@ namespace Data
     public abstract class DataAPI : IObserver<Ball>, IObservable<Ball>
     {
         public abstract int AddBall();
+
         public abstract int[] GetSize();
+
         public abstract void OnCompleted();
+
         public abstract void OnError(Exception error);
+
         public abstract void OnNext(Ball Ball);
+
         public abstract void SetBallMovement(int id, float direction, bool direction_x);
-        public abstract void SetBallMovements(int id, float [] direction);
+
+        public abstract void SetBallMovements(int id, float[] direction);
+
         public abstract void SwitchBallDirection(int id, bool direction_x);
+
         public abstract void SetBallSpeed(int id, float speed);
+
         public abstract float GetBallPositionX(int id);
+
         public abstract float GetBallPositionY(int id);
+
         public abstract float GetBallSpeed(int id);
+
         public abstract float[] GetBallMovement(int id);
+
         public abstract int GetBallRadius(int id);
+
         public abstract float GetBallMass(int id);
+
         public abstract int GetBallsCount();
+
         public abstract void RandomizePositions();
+
         public abstract void StartMovingBall(int id, bool start);
+
         public abstract IDisposable Subscribe(IObserver<Ball> observer);
 
         public static DataAPI CreateDataBase(int width, int height)
@@ -39,12 +57,14 @@ namespace Data
         private IList<IObserver<Ball>> observers;
         private Barrier barrier;
         public bool IsMoving { get; set; } = false;
+
         public DataBase(int width, int height)
         {
             this.board = new Board(width, height);
             observers = new List<IObserver<Ball>>();
             barrier = new Barrier(0);
         }
+
         private Ball GetBall(int id)
         {
             return board.GetBall(id);
@@ -59,7 +79,7 @@ namespace Data
         {
             return GetBall(id).Radius;
         }
-        
+
         public override float[] GetBallMovement(int id)
         {
             return GetBall(id).Movement;
@@ -89,7 +109,7 @@ namespace Data
                 GetBall(id).Movement[1] = direction;
         }
 
-        public override void SetBallMovements(int id, float [] movement)
+        public override void SetBallMovements(int id, float[] movement)
         {
             GetBall(id).Movement[0] = movement[0];
             GetBall(id).Movement[1] = movement[1];
@@ -99,13 +119,15 @@ namespace Data
         {
             if (direction_x)
                 SetBallMovement(id, GetBall(id).Movement[0] * (-1), direction_x);
-            else 
+            else
                 SetBallMovement(id, GetBall(id).Movement[1] * (-1), direction_x);
         }
+
         public override void SetBallSpeed(int id, float speed)
         {
             GetBall(id).Speed = speed;
         }
+
         public override void RandomizePositions()
         {
             foreach (Ball ball in GetBalls())
@@ -113,14 +135,17 @@ namespace Data
                 ball.RandomizePosition(GetSize()[0], GetSize()[1]);
             }
         }
+
         public override float GetBallPositionX(int id)
         {
             return GetBall(id).Position_X;
         }
+
         public override float GetBallPositionY(int id)
         {
             return GetBall(id).Position_Y;
         }
+
         private List<Ball> GetBalls()
         {
             return board.Balls;
@@ -140,6 +165,7 @@ namespace Data
         }
 
         #region Observer
+
         public override void OnCompleted()
         {
             unsubscriber.Dispose();
@@ -167,7 +193,7 @@ namespace Data
                 unsubscriber = provider.Subscribe(this);
         }
 
-        #endregion
+        #endregion Observer
 
         #region provider
 
@@ -197,6 +223,6 @@ namespace Data
             }
         }
 
-        #endregion
+        #endregion provider
     }
 }

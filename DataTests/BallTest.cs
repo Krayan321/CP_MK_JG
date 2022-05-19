@@ -88,8 +88,8 @@ namespace DataTests
 
             for (int i = 0; i < 10000; i++)
             {
-                Assert.IsTrue(testBall.Movement[0] >= -1 && testBall.Movement[0] <= 5);
-                Assert.IsTrue(testBall.Movement[1] >= -1 && testBall.Movement[1] <= 5);
+                Assert.IsTrue(testBall.Movement[0] >= -2 && testBall.Movement[0] <= 5);
+                Assert.IsTrue(testBall.Movement[1] >= -2 && testBall.Movement[1] <= 5);
             }
             
         }

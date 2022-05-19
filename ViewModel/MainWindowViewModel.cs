@@ -1,7 +1,6 @@
 using Model;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -24,7 +23,6 @@ namespace ViewModel
         private Task updatingThread;
 
         #endregion private
-
 
         public ICommand StartButtonClick { get; set; }
         public ICommand UpdateButtonClick { get; set; }
@@ -136,19 +134,17 @@ namespace ViewModel
         private void StartClick()
         {
             ButtonText = "Generated";
-            //movingThread = new Task(Model.MoveBalls);
-            //updatingThread = new Task(Update);
             int numberOfBalls = TextBoxValue();
             if (numberOfBalls > 0)
             {
                 CanStartUpdating = true;
                 NotStarted = false;
             }
-            //modelLayer.RemoveBalls();
+
             Model.AddNewBalls(numberOfBalls);
             Model.RandomizePositions(Model.Size[0] - Model.Radius * 2, Model.Size[1] - Model.Radius * 2);
-            //movingThread.Start();
             Balls.Clear();
+
             foreach (ModelBall ball in Model.balls)
             {
                 Balls.Add(ball);

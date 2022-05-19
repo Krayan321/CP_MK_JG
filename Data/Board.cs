@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Data
 {
@@ -20,7 +19,7 @@ namespace Data
 
         public Board(int width, int height)
         {
-            Size = new int[2] {width, height};
+            Size = new int[2] { width, height };
             Balls = new List<Ball>();
         }
 

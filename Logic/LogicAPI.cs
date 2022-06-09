@@ -71,6 +71,8 @@ namespace Logic
                     SwitchDirections(id, true);
                 if (Position_Y + Radius * 2 + Movement[1] > Size[1] || Position_Y + Movement[1] < 0)
                     SwitchDirections(id, false);
+
+                Data.CorrectBallPosition(id, Size[0], Size[1]);
             }
 
             private void CheckCollisions(int id)

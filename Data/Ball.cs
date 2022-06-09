@@ -39,16 +39,11 @@ namespace Data
 
         public void RandomizeMovement()
         {
-            int startSpeed = 3;
-
             int minus_X = Convert.ToBoolean(rnd.Next(2)) ? 1 : -1;
             int minus_Y = Convert.ToBoolean(rnd.Next(2)) ? 1 : -1;
 
-            this.Movement[0] = (float)((1 + rnd.Next(100)) * 0.01 * minus_X) * 1 + rnd.Next(startSpeed);
-            this.Movement[1] = (float)((1 + rnd.Next(100)) * 0.01 * minus_Y) * 1 + rnd.Next(startSpeed);
-
-            //this.Movement[0] *= 1000;
-            //this.Movement[1] *= 1000;
+            this.Movement[0] = (float)((1 + rnd.Next(100)) * 0.01 * minus_X);
+            this.Movement[1] = (float)((1 + rnd.Next(100)) * 0.01 * minus_Y);
         }
 
         public float GetTime()
@@ -79,8 +74,8 @@ namespace Data
             float elapsed = this.time > 0 ? this.time : 1;
             //elapsed /= 1000;
 
-            Position_X += Movement[0];// * elapsed;
-            Position_Y += Movement[1];// * elapsed;
+            Position_X += Movement[0] * elapsed;
+            Position_Y += Movement[1] * elapsed;
             NotifyObservers();
             watch.Restart();
         }
@@ -112,6 +107,19 @@ namespace Data
 
             BallThread.IsBackground = true;
             BallThread.Start();
+        }
+
+        public void CorrectPositions(int x, int y)
+        {
+            if (Position_X < 0)
+                Position_X = Radius * 2;
+            if (Position_X > x)
+                Position_X = x - Radius * 2;
+
+            if (Position_Y < 0)
+                Position_Y = Radius * 2;
+            if (Position_Y > y)
+                Position_Y = y - Radius * 2;
         }
 
         public IDisposable Subscribe(IObserver<Ball> observer)

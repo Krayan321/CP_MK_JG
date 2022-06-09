@@ -41,6 +41,8 @@ namespace Data
 
         public abstract int GetBallsCount();
 
+        public abstract void CorrectBallPosition(int id, int x, int y);
+
         public abstract string GetBallLog(int id);
 
         public abstract void RandomizePositions();
@@ -224,6 +226,11 @@ namespace Data
             if (!observers.Contains(observer))
                 observers.Add(observer);
             return new Unsubscriber(observers, observer);
+        }
+
+        public override void CorrectBallPosition(int id, int x, int y)
+        {
+            GetBall(id).CorrectPositions(x, y);
         }
 
         private class Unsubscriber : IDisposable

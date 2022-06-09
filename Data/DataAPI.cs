@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 namespace Data
@@ -26,6 +27,8 @@ namespace Data
 
         public abstract float GetBallPositionX(int id);
 
+        public abstract float GetBallTime(int id);
+
         public abstract float GetBallPositionY(int id);
 
         public abstract float GetBallSpeed(int id);
@@ -37,6 +40,8 @@ namespace Data
         public abstract float GetBallMass(int id);
 
         public abstract int GetBallsCount();
+
+        public abstract string GetBallLog(int id);
 
         public abstract void RandomizePositions();
 
@@ -80,9 +85,26 @@ namespace Data
             return GetBall(id).Radius;
         }
 
+        public override string GetBallLog(int id)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append($"Ball ID: {id} ");
+            builder.Append($"Ball X: {GetBall(id).Position_X} ");
+            builder.Append($"Ball Y: {GetBall(id).Position_Y} ");
+            builder.Append($"Ball SpeedX: {GetBall(id).Movement[0]} ");
+            builder.Append($"Ball SpeedY: {GetBall(id).Movement[1]}");
+
+            return builder.ToString();
+        }
+
         public override float[] GetBallMovement(int id)
         {
             return GetBall(id).Movement;
+        }
+
+        public override float GetBallTime(int id)
+        {
+            return GetBall(id).GetTime();
         }
 
         public override float GetBallSpeed(int id)

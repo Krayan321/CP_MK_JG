@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -17,6 +18,8 @@ namespace Data
         internal readonly IList<IObserver<Ball>> observers;
         private readonly Random rnd = new Random();
         private Thread BallThread;
+        private Stopwatch watch = new Stopwatch();
+        private float time = 0;
 
         public Ball(float position_X, float position_Y, int radius, int id, float mass)
         {
@@ -43,6 +46,14 @@ namespace Data
 
             this.Movement[0] = (float)((1 + rnd.Next(100)) * 0.01 * minus_X) * 1 + rnd.Next(startSpeed);
             this.Movement[1] = (float)((1 + rnd.Next(100)) * 0.01 * minus_Y) * 1 + rnd.Next(startSpeed);
+
+            //this.Movement[0] *= 1000;
+            //this.Movement[1] *= 1000;
+        }
+
+        public float GetTime()
+        {
+            return this.time;
         }
 
         public void RandomizePosition(int maxWidth, int maxHeight)
@@ -63,9 +74,15 @@ namespace Data
 
         public void Move()
         {
-            Position_X += Movement[0];
-            Position_Y += Movement[1];
+            watch.Stop();
+            this.time = watch.ElapsedMilliseconds;
+            float elapsed = this.time > 0 ? this.time : 1;
+            //elapsed /= 1000;
+
+            Position_X += Movement[0];// * elapsed;
+            Position_Y += Movement[1];// * elapsed;
             NotifyObservers();
+            watch.Restart();
         }
 
         public void StartMoving()
@@ -93,6 +110,7 @@ namespace Data
             if (BallThread is null)
                 this.BallThread = new Thread(StartMoving);
 
+            BallThread.IsBackground = true;
             BallThread.Start();
         }
 

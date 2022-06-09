@@ -28,7 +28,7 @@ namespace Data
             Random rnd = new Random();
             int newValue = 5 + rnd.Next(15);
             Balls.Add(new Ball(BallsCounter++));
-            GetBall(BallsCounter - 1).Mass = newValue / 2;
+            GetBall(BallsCounter - 1).Mass = (float)(Math.PI * (newValue * newValue));
             GetBall(BallsCounter - 1).Radius = newValue;
             return BallsCounter - 1;
         }

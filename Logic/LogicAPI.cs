@@ -40,12 +40,15 @@ namespace Logic
             private readonly DataAPI Data;
             private IDisposable unsubscriber;
             private IList<IObserver<int>> observers;
+            private Logger logger;
 
             public BusinessLogic(DataAPI dataLayerAPI)
             {
                 Data = dataLayerAPI;
                 Subscribe(Data);
                 observers = new List<IObserver<int>>();
+                logger = new Logger();
+                logger.StartLogging();
                 Size = Data.GetSize();
             }
 
@@ -146,6 +149,7 @@ namespace Logic
 
             public override void OnNext(Ball Ball)
             {
+                logger.AddLog(Data.GetBallLog(Ball.Id));
                 CheckBorders(Ball.Id);
                 CheckCollisions(Ball.Id);
                 NotifyObservers(Ball.Id);

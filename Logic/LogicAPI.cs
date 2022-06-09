@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Logic
 {
-    public abstract class LogicAPI : IObservable<int>, IObserver<Ball>
+    public abstract class LogicAPI : IObservable<int>, IObserver<BallInterface>
     {
         public Board Board { get; set; }
 
@@ -24,7 +24,7 @@ namespace Logic
 
         public abstract void OnError(Exception error);
 
-        public abstract void OnNext(Ball Ball);
+        public abstract void OnNext(BallInterface Ball);
 
         public int[] Size { get; set; }
 
@@ -133,7 +133,7 @@ namespace Logic
 
             #region observer
 
-            public virtual void Subscribe(IObservable<Ball> provider)
+            public virtual void Subscribe(IObservable<BallInterface> provider)
             {
                 if (provider != null)
                     unsubscriber = provider.Subscribe(this);
@@ -149,7 +149,7 @@ namespace Logic
                 throw error;
             }
 
-            public override void OnNext(Ball Ball)
+            public override void OnNext(BallInterface Ball)
             {
                 logger.AddLog(Data.GetBallLog(Ball.Id));
                 CheckBorders(Ball.Id);

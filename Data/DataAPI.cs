@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Data
 {
-    public abstract class DataAPI : IObserver<Ball>, IObservable<Ball>
+    public abstract class DataAPI : IObserver<BallInterface>, IObservable<BallInterface>
     {
         public abstract int AddBall();
 
@@ -15,7 +15,7 @@ namespace Data
 
         public abstract void OnError(Exception error);
 
-        public abstract void OnNext(Ball Ball);
+        public abstract void OnNext(BallInterface Ball);
 
         public abstract void SetBallMovement(int id, float direction, bool direction_x);
 
@@ -49,7 +49,7 @@ namespace Data
 
         public abstract void StartMovingBall(int id, bool start);
 
-        public abstract IDisposable Subscribe(IObserver<Ball> observer);
+        public abstract IDisposable Subscribe(IObserver<BallInterface> observer);
 
         public static DataAPI CreateDataBase(int width, int height)
         {
@@ -61,14 +61,14 @@ namespace Data
     {
         private Board board;
         private IDisposable unsubscriber;
-        private IList<IObserver<Ball>> observers;
+        private IList<IObserver<BallInterface>> observers;
         private Barrier barrier;
         public bool IsMoving { get; set; } = false;
 
         public DataBase(int width, int height)
         {
             this.board = new Board(width, height);
-            observers = new List<IObserver<Ball>>();
+            observers = new List<IObserver<BallInterface>>();
             barrier = new Barrier(0);
         }
 
@@ -200,18 +200,18 @@ namespace Data
             throw error;
         }
 
-        public override void OnNext(Ball Ball)
+        public override void OnNext(BallInterface Ball)
         {
             if (IsMoving)
                 barrier.SignalAndWait();
 
-            foreach (IObserver<Ball> observer in observers)
+            foreach (IObserver<BallInterface> observer in observers)
             {
                 observer.OnNext(Ball);
             }
         }
 
-        public virtual void Subscribe(IObservable<Ball> provider)
+        public virtual void Subscribe(IObservable<BallInterface> provider)
         {
             if (provider != null)
                 unsubscriber = provider.Subscribe(this);
@@ -221,7 +221,7 @@ namespace Data
 
         #region provider
 
-        public override IDisposable Subscribe(IObserver<Ball> observer)
+        public override IDisposable Subscribe(IObserver<BallInterface> observer)
         {
             if (!observers.Contains(observer))
                 observers.Add(observer);
@@ -235,11 +235,11 @@ namespace Data
 
         private class Unsubscriber : IDisposable
         {
-            private IList<IObserver<Ball>> _observers;
-            private IObserver<Ball> _observer;
+            private IList<IObserver<BallInterface>> _observers;
+            private IObserver<BallInterface> _observer;
 
             public Unsubscriber
-            (IList<IObserver<Ball>> observers, IObserver<Ball> observer)
+            (IList<IObserver<BallInterface>> observers, IObserver<BallInterface> observer)
             {
                 _observers = observers;
                 _observer = observer;

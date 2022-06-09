@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Data
 {
-    public class Ball : IObservable<Ball>
+    public class Ball : BallInterface
     {
         public float Position_X { get; set; }
         public float Position_Y { get; set; }
@@ -15,7 +15,7 @@ namespace Data
         public int Radius { get; set; }
         public int Id { get; }
         public float Mass { get; set; }
-        internal readonly IList<IObserver<Ball>> observers;
+        internal readonly IList<IObserver<BallInterface>> observers;
         private readonly Random rnd = new Random();
         private Thread BallThread;
         private Stopwatch watch = new Stopwatch();
@@ -29,7 +29,7 @@ namespace Data
             Position_X = position_X;
             Position_Y = position_Y;
             Radius = radius;
-            observers = new List<IObserver<Ball>>();
+            observers = new List<IObserver<BallInterface>>();
             RandomizeMovement();
         }
 
@@ -122,7 +122,7 @@ namespace Data
                 Position_Y = y - Radius * 2;
         }
 
-        public IDisposable Subscribe(IObserver<Ball> observer)
+        public IDisposable Subscribe(IObserver<BallInterface> observer)
         {
             if (!observers.Contains(observer))
                 observers.Add(observer);
@@ -131,10 +131,10 @@ namespace Data
 
         private class Unsubscriber : IDisposable
         {
-            private IList<IObserver<Ball>> _observers;
-            private IObserver<Ball> _observer;
+            private IList<IObserver<BallInterface>> _observers;
+            private IObserver<BallInterface> _observer;
 
-            public Unsubscriber(IList<IObserver<Ball>> observers, IObserver<Ball> observer)
+            public Unsubscriber(IList<IObserver<BallInterface>> observers, IObserver<BallInterface> observer)
             {
                 this._observers = observers;
                 this._observer = observer;

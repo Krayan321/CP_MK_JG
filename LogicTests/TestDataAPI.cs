@@ -10,7 +10,7 @@ namespace LogicTests
     internal class TestDataAPI : DataAPI
     {
         public Board board { get; set; }
-        IList<IObserver<Ball>> observers;
+        IList<IObserver<BallInterface>> observers;
         public TestDataAPI()
         {
             board = new Board(100, 100);
@@ -71,7 +71,7 @@ namespace LogicTests
             return;
         }
 
-        public override void OnNext(Ball Ball)
+        public override void OnNext(BallInterface Ball)
         {
             return;
         }
@@ -101,7 +101,7 @@ namespace LogicTests
             throw new NotImplementedException();
         }
 
-        public override IDisposable Subscribe(IObserver<Ball> observer)
+        public override IDisposable Subscribe(IObserver<BallInterface> observer)
         {
             if (!observers.Contains(observer))
                 observers.Add(observer);
@@ -110,11 +110,11 @@ namespace LogicTests
 
         private class Unsubscriber : IDisposable
         {
-            private IList<IObserver<Ball>> _observers;
-            private IObserver<Ball> _observer;
+            private IList<IObserver<BallInterface>> _observers;
+            private IObserver<BallInterface> _observer;
 
             public Unsubscriber
-            (IList<IObserver<Ball>> observers, IObserver<Ball> observer)
+            (IList<IObserver<BallInterface>> observers, IObserver<BallInterface> observer)
             {
                 _observers = observers;
                 _observer = observer;
@@ -138,6 +138,11 @@ namespace LogicTests
         }
 
         public override float GetBallTime(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CorrectBallPosition(int id, int x, int y)
         {
             throw new NotImplementedException();
         }

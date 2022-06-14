@@ -8,7 +8,7 @@ namespace Data
 {
     public class Logger
     {
-        private Queue<string> logs = new Queue<string>();
+        private Queue<BallLogData> logs = new Queue<BallLogData>();
         private Mutex mutex = new Mutex();
         private String filename;
         private Thread thread;
@@ -26,10 +26,10 @@ namespace Data
             thread.Start();
         }
 
-        private Queue<String> GetLogs()
+        private Queue<BallLogData> GetLogs()
         {
             mutex.WaitOne();
-            Queue<String> tempLogs = new Queue<String>(logs);
+            Queue<BallLogData> tempLogs = new Queue<BallLogData>(logs);
             logs.Clear();
             mutex.ReleaseMutex();
             return tempLogs;
@@ -39,18 +39,25 @@ namespace Data
         {
             while(true)
             {
-                Queue<String> tempLogs = GetLogs();
+                Queue<BallLogData> tempLogs = GetLogs();
 
                 while(tempLogs.Count > 0)
                 {
-                    File.AppendAllText(filename, tempLogs.Dequeue() + "\n");
+                    BallLogData temp = tempLogs.Dequeue();
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append($"Ball ID: {temp.Id} ");
+                    builder.Append($"Ball X: {temp.Position_X} ");
+                    builder.Append($"Ball Y: {temp.Position_Y} ");
+                    builder.Append($"Ball SpeedX: {temp.Movement[0]} ");
+                    builder.Append($"Ball SpeedY: {temp.Movement[1]}");
+                    File.AppendAllText(filename, builder.ToString() + "\n");
                 }
 
                 Thread.Sleep(this.delay);
             }
         }
 
-        public void AddLog(String log)
+        public void AddLog(BallLogData log)
         {
             mutex.WaitOne();
             logs.Enqueue(log);

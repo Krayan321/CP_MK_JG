@@ -43,8 +43,6 @@ namespace Data
 
         public abstract void CorrectBallPosition(int id, int x, int y);
 
-        public abstract string GetBallLog(int id);
-
         public abstract void RandomizePositions();
 
         public abstract void StartMovingBall(int id, bool start);
@@ -63,6 +61,7 @@ namespace Data
         private IDisposable unsubscriber;
         private IList<IObserver<BallInterface>> observers;
         private Barrier barrier;
+        private Logger logger;
         public bool IsMoving { get; set; } = false;
 
         public DataBase(int width, int height)
@@ -70,6 +69,8 @@ namespace Data
             this.board = new Board(width, height);
             observers = new List<IObserver<BallInterface>>();
             barrier = new Barrier(0);
+            logger = new Logger();
+            logger.StartLogging();
         }
 
         private Ball GetBall(int id)
@@ -85,18 +86,6 @@ namespace Data
         public override int GetBallRadius(int id)
         {
             return GetBall(id).Radius;
-        }
-
-        public override string GetBallLog(int id)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append($"Ball ID: {id} ");
-            builder.Append($"Ball X: {GetBall(id).Position_X} ");
-            builder.Append($"Ball Y: {GetBall(id).Position_Y} ");
-            builder.Append($"Ball SpeedX: {GetBall(id).Movement[0]} ");
-            builder.Append($"Ball SpeedY: {GetBall(id).Movement[1]}");
-
-            return builder.ToString();
         }
 
         public override float[] GetBallMovement(int id)
@@ -204,6 +193,8 @@ namespace Data
         {
             if (IsMoving)
                 barrier.SignalAndWait();
+
+            logger.AddLog(GetBall(Ball.Id).GetLogData());
 
             foreach (IObserver<BallInterface> observer in observers)
             {

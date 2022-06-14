@@ -132,11 +132,6 @@ namespace LogicTests
             throw new NotImplementedException();
         }
 
-        public override string GetBallLog(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public override float GetBallTime(int id)
         {
             throw new NotImplementedException();

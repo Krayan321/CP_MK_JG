@@ -46,6 +46,12 @@ namespace Data
             this.Movement[1] = (float)((1 + rnd.Next(100)) * 0.01 * minus_Y);
         }
 
+        public BallLogData GetLogData()
+        {
+            BallLogData data = new BallLogData(Id, Position_X, Position_Y, Movement, Speed);
+            return data;
+        }
+
         public float GetTime()
         {
             return this.time;
